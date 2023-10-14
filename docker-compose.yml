@@ -2,25 +2,24 @@ version: '3'
 
 services:
 
-  gitlab:
-    image: 'gitlab/gitlab-ce:latest'
-    container_name: production-ready-pipelines-gitlab
-    hostname: 'localhost'
+  api:
+    container_name: production-ready-pipelines-api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
     environment:
-      GITLAB_ROOT_PASSWORD: 5x3(^[!X<Iq'l0M2
-      GITLAB_OMNIBUS_CONFIG: |
-        external_url 'http://localhost'
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://0.0.0.0:5079
     ports:
-      - '80:80'
-      - '22:22'
-    volumes:
-      - './.gitlab/config:/etc/gitlab'
-      - './.gitlab/logs:/var/log/gitlab'
-      - './.gitlab/data:/var/opt/gitlab'
+      - "5079:5079"
 
-  gitlab-runner:
-    image: 'gitlab/gitlab-runner:latest'
-    container_name: production-ready-pipelines-gitlab-runner
-    volumes:
-      - './.gitlab-runner/config:/etc/gitlab-runner'
-      - '/var/run/docker.sock:/var/run/docker.sock'
+  test:
+    container_name: production-ready-pipelines-test
+    build:
+      context: .
+      dockerfile: Tests/Dockerfile
+    environment:
+      DOTNET_ENVIRONMENT: Test
+    entrypoint: ./wait-for-it.sh api:5079 -- /usr/bin/dotnet test --filter ${DOTNET_TEST_FILTER:-"Category!=Ignored"}
+    depends_on:
+      - api

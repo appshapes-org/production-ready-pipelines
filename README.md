@@ -30,7 +30,34 @@ Wait approximately 5 minutes for GitLab complete its initialization before proce
 
 - Log in to [GitLab Home](http://localhost/admin/runners) (Password: `5x3(^[!X<Iq'l0M2`)
 - Open [Admin Area > Runners](http://localhost/admin/runners)
-- 
+- Click [Create a new runner](http://localhost/admin/runners/new)
+- Select "Run untagged jobs"
+- Click "Create runner"
+- On "Register runner" page, save the registration token somewhere safe.
+- Copy the "Step 1" command
+- Start your runner container:
+
+```shell
+~/projects/pipelines # docker compose up -d gitlab-runner
+```
+
+- Shell into GitLab container:
+
+```shell
+~/projects/pipelines # docker exec -it production-ready-pipelines-gitlab-runner sh
+```
+
+- Register the runner:
+
+```shell
+# gitlab-runner register --url http://gitlab --token glrt-Moz88ZNxwnMeMVyjqByB
+```
+
+- Hit enter to accept default URL
+- Hit enter to accept default name
+- Enter `docker`
+- Enter `alpine:latest`
+- Enter `exit` to exit your runner container
 
 ## Start GitLab
 
