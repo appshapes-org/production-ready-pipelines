@@ -10,6 +10,12 @@ public class GetEnvironmentCommand
         return _environmentName;
     }
 
+    protected virtual string GetEnvironmentKey()
+    {
+        string key = Environment.GetEnvironmentVariables().Keys.Cast<string>().FirstOrDefault(IsEnvironmentKey);
+        return key;
+    }
+
     protected virtual List<string> GetEnvironmentKeys()
     {
         return new List<string> { "DOTNET_ENVIRONMENT", "ASPNETCORE_ENVIRONMENT" };
@@ -17,7 +23,7 @@ public class GetEnvironmentCommand
 
     protected virtual string GetEnvironmentName()
     {
-        string key = Environment.GetEnvironmentVariables().Keys.Cast<string>().FirstOrDefault(IsEnvironmentKey);
+        string key = GetEnvironmentKey();
         return key == null ? string.Empty : Environment.GetEnvironmentVariable(key);
     }
 

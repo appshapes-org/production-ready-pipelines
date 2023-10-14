@@ -27,19 +27,19 @@ image-sh:
 	docker exec -it $(service) sh
 
 lint:
-	dotnet format --verify-no-changes --exclude Tests **/Migrations --verbosity quiet
+	dotnet format --verify-no-changes --exclude Tests --verbosity quiet
 
 lint-fix:
-	dotnet format --exclude Tests **/Migrations --verbosity quiet
+	dotnet format --exclude Tests --verbosity quiet
 
 stop:
 	docker compose stop $(service)
 
 test:
-	dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --no-build --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute\"
+	dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --no-build --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
 
 test-coverage: clean build test
-	reportgenerator "-reports:**/*Tests*/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*.*Program*"
+	reportgenerator "-reports:**/*Tests*/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*"
 
 test-all:
 	docker compose build -q

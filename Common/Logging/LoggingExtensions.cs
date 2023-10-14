@@ -1,4 +1,5 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Diagnostics.CodeAnalysis;
+using System.Runtime.CompilerServices;
 using Common.Hosting;
 using Common.Lifetime;
 using Microsoft.Extensions.Logging;
@@ -6,6 +7,7 @@ using Serilog.Context;
 
 namespace Common.Logging;
 
+[ExcludeFromCodeCoverage]
 public static class LoggingExtensions
 {
     public static void Debug(this ILogger logger, string message, object propertyValue1 = null, object propertyValue2 = null, [CallerArgumentExpression("propertyValue1")] string propertyName1 = null, [CallerArgumentExpression("propertyValue2")] string propertyName2 = null, [CallerMemberName] string memberName = null, [CallerFilePath] string classPath = null)
