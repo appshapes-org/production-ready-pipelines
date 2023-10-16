@@ -6,7 +6,6 @@ variables:
 stages:
   - check
   - test
-  - cover
   - build
 
 check:
@@ -18,10 +17,4 @@ test:
   stage: test
   script:
     - dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
-
-cover:
-  stage: cover
-  script:
-    - pwd
-    - find . -type f -name coverage*.xml
     - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*"
