@@ -1,10 +1,12 @@
 # Production Ready Pipelines
 
-[![Build Status](https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/master/raw/.ignored/coverage-reports/badge_combined.svg?job=test)](https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/)
+| GitLab | GitHub | Jenkins | Harness |
+| ------ | ------ | ------- | ------- |
+| [![Build Status](https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/master/raw/.ignored/coverage-reports/badge_combined.svg?job=test)](https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/) |
 
 # What is this for?
 
-This repository contains production-ready pipeline implementations for GitHub, GitLab, Harness, and Jenkins.
+This repository contains production-ready pipeline implementations for GitLab, GitHub, Jenkins, and Harness.
 
 # Who is this for?
 
