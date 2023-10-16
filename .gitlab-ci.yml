@@ -6,16 +6,20 @@ variables:
 stages:
   - check
   - test
+  - cover
   - build
 
-# check:
-#   stage: check
-#   script:
-#     - dotnet format --verify-no-changes --exclude Tests --verbosity quiet
+check:
+  stage: check
+  script:
+    - dotnet format --verify-no-changes --exclude Tests --verbosity quiet
 
 test:
   stage: test
   script:
-    - dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal --filter "Category!=Service&Category!=Integration"
-#    - dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
-#    - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*"
+    - dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
+
+cover:
+  stage: cover
+  script:
+    - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*" 
