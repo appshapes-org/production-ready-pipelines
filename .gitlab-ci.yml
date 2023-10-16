@@ -6,6 +6,7 @@ variables:
 stages:
   - check
   - test
+  - report
   - build
 
 check:
@@ -23,7 +24,9 @@ test:
       - .ignored/coverage-reports
 
 pages:
-  stage: test
+  stage: report
+  needs:
+    - job: test
   script:
     - mv .ignored/coverage-reports public
   only:
