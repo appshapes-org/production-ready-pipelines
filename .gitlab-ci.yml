@@ -54,5 +54,7 @@ build:
   services:
     - docker:dind
   script:
-    - docker build --build-arg PROJECT=Api -f Api/Dockerfile -t '$CI_REGISTRY_IMAGE/Api' -t '$CI_REGISTRY_IMAGE/Api:$CI_COMMIT_SHORT_SHA' -t '$CI_REGISTRY_IMAGE/Api:latest' .
+    - echo $CI_REGISTRY_IMAGE
+    - echo $CI_COMMIT_SHORT_SHA
+    - docker build --build-arg PROJECT=Api -f Api/Dockerfile -t $CI_REGISTRY_IMAGE/Api -t $CI_REGISTRY_IMAGE/Api:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE/Api:latest .
     - docker push $CI_REGISTRY_IMAGE
