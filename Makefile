@@ -36,7 +36,7 @@ stop:
 	docker compose stop $(service)
 
 test:
-	dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --no-build --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
+	dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --no-build --verbosity detailed --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
 
 test-coverage: clean build test
 	reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*"
