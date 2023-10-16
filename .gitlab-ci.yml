@@ -24,6 +24,8 @@ test:
 
 pages:
   stage: test
+  only:
+    - CreateGitLab
   artifacts:
     paths:
-    - .ignored/coverage-reports
+      - .ignored/coverage-reports
