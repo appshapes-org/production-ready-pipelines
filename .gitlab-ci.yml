@@ -22,4 +22,4 @@ test:
 cover:
   stage: cover
   script:
-    - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator \"-reports:**/*Tests*/TestResults/**/coverage.cobertura.xml\" \"-targetdir:.ignored/coverage-reports\" \"-classfilters:-*Program*\"
+    - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator \"-reports:**/TestResults/**/coverage.cobertura.xml\" \"-targetdir:.ignored/coverage-reports\" \"-classfilters:-*Program*\"
