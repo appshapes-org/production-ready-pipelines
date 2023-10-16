@@ -454,9 +454,3 @@ Temporary Items
 
 # .NET CLI
 global.json
-
-# Pipeline tools
-.gitlab/config/*
-.gitlab/data/*
-.gitlab/logs/*
-.gitlab-runner/config/*
