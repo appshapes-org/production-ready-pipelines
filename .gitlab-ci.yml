@@ -24,8 +24,10 @@ test:
 
 pages:
   stage: test
+  script:
+    - mv .ignored/coverage-reports public
   only:
     - CreateGitLab
   artifacts:
     paths:
-      - .ignored/coverage-reports
+      - public
