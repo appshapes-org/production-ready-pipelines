@@ -1,8 +1,10 @@
 # Production Ready Pipelines
 
-| GitLab | GitHub | Jenkins | Harness |
-| ------ | ------ | ------- | ------- |
-| [![Build Status](https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/master/raw/.ignored/coverage-reports/badge_combined.svg?job=test)](https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/) |
+<table>
+  <tr>
+    <th>GitLab</th><td><a href="https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/"><img src="https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/master/raw/.ignored/coverage-reports/badge_combined.svg?job=test" /></a></td>
+  </tr>
+</table>
 
 # What is this for?
 

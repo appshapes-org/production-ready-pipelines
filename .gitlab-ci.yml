@@ -27,10 +27,26 @@ pages:
   stage: report
   needs:
     - job: test
-  script:
-    - mv .ignored/coverage-reports public
   only:
     - master
+  script:
+    - mv .ignored/coverage-reports public
   artifacts:
     paths:
       - public
+
+build:setup:
+  stage: build
+  only:
+    - master
+  script:
+    - docker login registry.gitlab.com -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD
+
+build:
+  stage: build
+  needs: ["build:setup"]
+  only:
+    - master
+  script:
+    - docker build --build-arg PROJECT=Api -f Api/Dockerfile -t '$CI_REGISTRY/Api' -t '$CI_REGISTRY/Api:$CI_COMMIT_SHORT_SHA' -t '$CI_REGISTRY/Api:latest' .
+    - docker push $CI_REGISTRY
