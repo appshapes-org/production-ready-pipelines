@@ -21,3 +21,9 @@ test:
   artifacts:
     paths:
       - .ignored/coverage-reports
+
+pages:
+  stage: test
+  artifacts:
+    paths:
+    - .ignored/coverage-reports
