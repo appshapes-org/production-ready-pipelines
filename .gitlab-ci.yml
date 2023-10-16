@@ -30,7 +30,7 @@ pages:
   script:
     - mv .ignored/coverage-reports public
   only:
-    - CreateGitLab
+    - master
   artifacts:
     paths:
       - public
