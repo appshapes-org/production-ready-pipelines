@@ -40,6 +40,8 @@ build:setup:
   only:
     - master
   image: docker
+  services:
+    - docker:dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
 
@@ -49,6 +51,8 @@ build:
   only:
     - master
   image: docker
+  services:
+    - docker:dind
   script:
     - docker build --build-arg PROJECT=Api -f Api/Dockerfile -t '$CI_REGISTRY_IMAGE/Api' -t '$CI_REGISTRY_IMAGE/Api:$CI_COMMIT_SHORT_SHA' -t '$CI_REGISTRY_IMAGE/Api:latest' .
     - docker push $CI_REGISTRY_IMAGE
