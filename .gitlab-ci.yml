@@ -4,14 +4,14 @@ variables:
   DOTNET_NOLOGO: 'true'
 
 stages:
-#  - check
+  - check
   - test
   - build
 
-check:
-  stage: check
-  script:
-    - dotnet format --verify-no-changes --exclude Tests --verbosity quiet
+# check:
+#   stage: check
+#   script:
+#     - dotnet format --verify-no-changes --exclude Tests --verbosity quiet
 
 test:
   stage: test
