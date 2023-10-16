@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+
+  api:
+    container_name: production-ready-pipelines-api
+    build:
+      context: .
+      dockerfile: Api/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Docker
+      ASPNETCORE_URLS: http://0.0.0.0:5079
+    ports:
+      - "5079:5079"
+
+  test:
+    container_name: production-ready-pipelines-test
+    build:
+      context: .
+      dockerfile: Tests/Dockerfile
+    environment:
+      DOTNET_ENVIRONMENT: Test
+    entrypoint: ./wait-for-it.sh api:5079 -- /usr/bin/dotnet test --filter ${DOTNET_TEST_FILTER:-"Category!=Ignored"}
+    depends_on:
+      - api

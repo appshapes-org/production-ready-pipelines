@@ -1,3 +1,5 @@
+[![Build Status](https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/CreateGitLab/raw/.ignored/coverage-reports/badge_combined.svg?job=test)](https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/)
+
 # What is this for?
 
 This repository contains production-ready pipeline implementations for GitHub, GitLab, Harness, and Jenkins.
@@ -10,30 +12,27 @@ Developers, platform engineers, and others may use this repository setting up an
 
 ## Docker Compose
 
-`docker-compose.yml` defines GitLab, Jenkins, and Harness services.
+- `docker-compose.yml` for running Api and Tests components.
+- `docker-compose-tools.yml` for running GitLab, Jenkins, and Harness instances locally.
+- `.gitlab-ci.yml` configures GitLab pipeline.
 
 # What are the dependencies?
 
 - Docker
 
-# How do I run GitLab?
+# How do I run GitLab pipeline?
 
-## Start GitLab
+You need a GitLab project and runner to run the GitLab pipeline. Either run the GitLab Docker image, or use GitLab.com.
 
-```shell
-~/projects/pipelines # docker compose up -d gitlab
-```
+## Locally Hosted
 
-Wait approximately 5 minutes for GitLab complete its initialization before proceding.
+The following resources are excellent and can get you up and running locally quickly:
 
-## Configure GitLab
+- [How to install GitLab using Docker Compose?](https://www.czerniga.it/2021/11/14/how-to-install-gitlab-using-docker-compose/)
+- GitLab Docs > Install > Installation methods > [Docker](https://docs.gitlab.com/ee/install/docker.html)
+- And then follow the steps under "GitLab Hosted"
 
-- Log in to [GitLab Home](http://localhost/admin/runners) (Password: `5x3(^[!X<Iq'l0M2`)
-- Open [Admin Area > Runners](http://localhost/admin/runners)
-- 
+## GitLab Hosted
 
-## Start GitLab
-
-```shell
-~/projects/pipelines # docker compose up -d gitlab-runner
-```
+- Fork [production-ready-pipelines](https://github.com/appshapes-org/production-ready-pipelines)
+- [Create a repository mirror](https://docs.gitlab.com/ee/user/project/repository/mirror/#create-a-repository-mirror) to your fork

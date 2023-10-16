@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Api": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "launchUrl": "api/v1/titlecase?text=the answer is a 42",
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Local"
+      },
+      "applicationUrl": "http://localhost:5079"
+    }
+  },
+  "$schema": "https://json.schemastore.org/launchsettings.json"
+}

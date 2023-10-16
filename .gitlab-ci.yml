@@ -1,0 +1,36 @@
+image: mcr.microsoft.com/dotnet/sdk:7.0
+
+variables:
+  DOTNET_NOLOGO: 'true'
+
+stages:
+  - check
+  - test
+  - report
+  - build
+
+check:
+  stage: check
+  script:
+    - dotnet format --verify-no-changes --exclude Tests --verbosity quiet
+
+test:
+  stage: test
+  script:
+    - dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
+    - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*" \"-reporttypes:Html\;Badges\;JsonSummary\"
+  artifacts:
+    paths:
+      - .ignored/coverage-reports
+
+pages:
+  stage: report
+  needs:
+    - job: test
+  script:
+    - mv .ignored/coverage-reports public
+  only:
+    - master
+  artifacts:
+    paths:
+      - public
