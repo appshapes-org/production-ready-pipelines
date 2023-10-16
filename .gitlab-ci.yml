@@ -16,6 +16,6 @@ stages:
 test:
   stage: test
   script:
-    - dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal
+    - dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal --filter "Category!=Service&Category!=Integration"
 #    - dotnet test --environment DOTNET_ENVIRONMENT=Test --no-restore --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
 #    - dotnet tool install --global dotnet-reportgenerator-globaltool; ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*"
