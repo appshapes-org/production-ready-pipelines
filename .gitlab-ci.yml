@@ -35,19 +35,8 @@ pages:
     paths:
       - public
 
-build:setup:
-  stage: build
-  only:
-    - master
-  image: docker
-  services:
-    - docker:dind
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-
 build:
   stage: build
-  needs: ["build:setup"]
   only:
     - master
   image: docker
@@ -55,5 +44,5 @@ build:
     - docker:dind
   script:
     - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE:latest .
-    - docker push --quiet $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA
+    - docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t $CI_REGISTRY_IMAGE/api -t $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE/api:latest .
+    - docker push --quiet $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
