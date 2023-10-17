@@ -53,8 +53,6 @@ build:
   image: docker
   services:
     - docker:dind
-  variables:
-    IMAGE_NAME: $CI_REGISTRY_IMAGE/api
   script:
-    - docker build --build-arg PROJECT=Api -f Api/Dockerfile -t $IMAGE_NAME -t $IMAGE_NAME:$CI_COMMIT_SHORT_SHA -t $IMAGE_NAME:latest .
-    - docker push --all-tags
+    - docker build --build-arg PROJECT=Api -f Api/Dockerfile -t $CI_REGISTRY_IMAGE -t $CI_REGISTRY_IMAGE:$CI_COMMIT_SHORT_SHA -t $CI_REGISTRY_IMAGE:latest .
+    - docker push --all-tags $CI_REGISTRY_IMAGE
