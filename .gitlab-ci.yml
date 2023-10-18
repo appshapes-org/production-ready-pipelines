@@ -52,10 +52,8 @@ build:
 
 deploy:
   stage: deploy
-  only:
-    - master
   rules:
-    - if: '$GITLAB_ENVIRONMENT == "Local"'
+    - if: '$CI_COMMIT_BRANCH == "master" && $GITLAB_ENVIRONMENT == "Local"'
       when: always
     - when: never
   image: bitnami/kubectl
