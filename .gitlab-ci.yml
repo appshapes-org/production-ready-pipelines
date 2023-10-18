@@ -8,6 +8,7 @@ stages:
   - test
   - report
   - build
+  - deploy
 
 check:
   stage: check
@@ -48,3 +49,15 @@ build:
     - docker push --quiet $CI_REGISTRY_IMAGE/api
     - docker push --quiet $CI_REGISTRY_IMAGE/api:$CI_COMMIT_SHORT_SHA
     - docker push --quiet $CI_REGISTRY_IMAGE/api:latest
+
+deploy:
+  stage: deploy
+  only:
+    - master
+  rules:
+    - if: '$GITLAB_ENVIRONMENT == "Local"'
+      when: always
+    - when: never
+  image: bitnami/kubectl
+  script:
+    - kubectl apply -f .k8s/api/deployment.yml
