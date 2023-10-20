@@ -1,0 +1,54 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - '**'
+    
+  pull_request:
+    branches: [ master ]
+
+jobs:
+
+  check:
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:7.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Check
+        run: dotnet format --verify-no-changes --exclude Tests --verbosity quiet
+
+  test:
+    needs: check
+    runs-on: ubuntu-latest
+    container:
+      image: mcr.microsoft.com/dotnet/sdk:7.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Test
+        run: |
+          dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
+          dotnet tool install --global dotnet-reportgenerator-globaltool
+          ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*" "-reporttypes:Html;Badges;JsonSummary"
+      - name: Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: coverage-reports
+          path: .ignored/coverage-reports
+
+#  build:
+#    runs-on: ubuntu-latest
+#    if: github.ref == 'refs/heads/master'
+#    steps:
+#      - name: Checkout
+#        uses: actions/checkout@v2
+#      - name: Build
+#        run: |
+#          docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.CI_REGISTRY_PASSWORD }} ${{ secrets.CI_REGISTRY }}
+#          docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t ${{ secrets.CI_REGISTRY_IMAGE }}/api -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }} -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest .
+#          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api
+#          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }}
+#          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest
