@@ -39,7 +39,7 @@ jobs:
           dotnet tool install --global dotnet-reportgenerator-globaltool
           ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*" "-reporttypes:Html;Badges;JsonSummary"
       - name: Upload coverage
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v3
         with:
           name: coverage-reports
           path: .ignored/coverage-reports
@@ -65,7 +65,7 @@ jobs:
       - name: Build
         run: |
           docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-          docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t ghcr.io/appshapes-org/production-ready-pipelines/api -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }} -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest .
-          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api
-          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }}
-          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest
+          docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t ghcr.io/$GITHUB_REPOSITORY/api -t ghcr.io/$GITHUB_REPOSITORY/api:$GITHUB_SHA -t ghcr.io/$GITHUB_REPOSITORY/api:latest .
+          docker push --quiet ghcr.io/$GITHUB_REPOSITORY/api
+          docker push --quiet ghcr.io/$GITHUB_REPOSITORY/api:$GITHUB_SHA
+          docker push --quiet ghcr.io/$GITHUB_REPOSITORY/api:latest
