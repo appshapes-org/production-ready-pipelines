@@ -8,6 +8,11 @@ on:
   pull_request:
     branches: [ master ]
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 jobs:
 
   check:
@@ -16,7 +21,7 @@ jobs:
       image: mcr.microsoft.com/dotnet/sdk:7.0
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Check
         run: dotnet format --verify-no-changes --exclude Tests --verbosity quiet
 
@@ -27,28 +32,39 @@ jobs:
       image: mcr.microsoft.com/dotnet/sdk:7.0
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Test
         run: |
           dotnet test --environment DOTNET_ENVIRONMENT=Test --verbosity normal --filter "Category!=Service&Category!=Integration" --collect:"XPlat Code Coverage" /p:ExcludeByAttribute=\"Obsolete,GeneratedCodeAttribute,CompilerGeneratedAttribute,ExcludeFromCodeCoverage\"
           dotnet tool install --global dotnet-reportgenerator-globaltool
           ~/.dotnet/tools/reportgenerator "-reports:**/TestResults/**/coverage.cobertura.xml" "-targetdir:.ignored/coverage-reports" "-classfilters:-*Program*" "-reporttypes:Html;Badges;JsonSummary"
-      - name: Artifacts
+      - name: Upload coverage
         uses: actions/upload-artifact@v2
         with:
           name: coverage-reports
           path: .ignored/coverage-reports
-
-#  build:
-#    runs-on: ubuntu-latest
-#    if: github.ref == 'refs/heads/master'
-#    steps:
-#      - name: Checkout
-#        uses: actions/checkout@v2
-#      - name: Build
-#        run: |
-#          docker login -u ${{ secrets.CI_REGISTRY_USER }} -p ${{ secrets.CI_REGISTRY_PASSWORD }} ${{ secrets.CI_REGISTRY }}
-#          docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t ${{ secrets.CI_REGISTRY_IMAGE }}/api -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }} -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest .
-#          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api
-#          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }}
-#          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+        if: github.ref == 'refs/heads/master'
+      - name: Upload Pages
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: '.ignored/coverage-reports'
+        if: github.ref == 'refs/heads/master'
+      - name: Deploy Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
+        if: github.ref == 'refs/heads/master'
+  build:
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/master'
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Build
+        run: |
+          docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
+          docker build --quiet --build-arg PROJECT=Api -f Api/Dockerfile -t ghcr.io/appshapes-org/production-ready-pipelines/api -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }} -t ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest .
+          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api
+          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:${{ github.sha }}
+          docker push --quiet ${{ secrets.CI_REGISTRY_IMAGE }}/api:latest
