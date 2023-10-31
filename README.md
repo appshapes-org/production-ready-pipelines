@@ -2,7 +2,7 @@
 
 <table>
   <tr>
-    <th>GitLab</th><td>&nbsp;</td><td><a href="https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/"><img src="https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/master/raw/.ignored/coverage-reports/badge_combined.svg?job=test" /></a></td>
+    <th>GitLab</th><td><a href="https://gitlab.com/Rjae/production-ready-pipelines/-/pipelines"><img src="https://gitlab.com/Rjae/production-ready-pipelines/badges/master/pipeline.svg" /></a></td><td><a href="https://production-ready-pipelines-rjae-b1b991fe5be258c306785611c6e0f6d.gitlab.io/"><img src="https://gitlab.com/Rjae/production-ready-pipelines/-/jobs/artifacts/master/raw/.ignored/coverage-reports/badge_combined.svg?job=test" /></a></td>
   </tr>
   <tr>
     <th>GitHub</th><td><a href="https://github.com/appshapes-org/production-ready-pipelines/actions/workflows/.github-ci.yml"><img src="https://github.com/appshapes-org/production-ready-pipelines/actions/workflows/.github-ci.yml/badge.svg" /></a></td><td><a href="https://appshapes-org.github.io/production-ready-pipelines/"><img src="https://appshapes-org.github.io/production-ready-pipelines/badge_combined.svg" /></a></td>
