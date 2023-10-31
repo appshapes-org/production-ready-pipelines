@@ -13,6 +13,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Repository", "Repository", 
 		.editorconfig = .editorconfig
 		.gitattributes = .gitattributes
 		.gitignore = .gitignore
+		.github\workflows\.github-ci.yml = .github\workflows\.github-ci.yml
 		.gitlab-ci.yml = .gitlab-ci.yml
 		docker-compose-tools.yml = docker-compose-tools.yml
 		docker-compose.yml = docker-compose.yml
