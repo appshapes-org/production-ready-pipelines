@@ -10,8 +10,9 @@ on:
 
 permissions:
   contents: read
-  pages: write
   id-token: write
+  packages: write
+  pages: write
 
 jobs:
 
@@ -65,7 +66,7 @@ jobs:
       - name: Build
         run: |
           docker login -u ${{ github.actor }} -p ${{ secrets.GITHUB_TOKEN }} ghcr.io
-          docker build --build-arg PROJECT=Api -f Api/Dockerfile -t ghcr.io/$GITHUB_REPOSITORY/api -t ghcr.io/$GITHUB_REPOSITORY/api:$GITHUB_SHA -t ghcr.io/$GITHUB_REPOSITORY/api:latest .
+          docker --quiet build --build-arg PROJECT=Api -f Api/Dockerfile -t ghcr.io/$GITHUB_REPOSITORY/api -t ghcr.io/$GITHUB_REPOSITORY/api:$GITHUB_SHA -t ghcr.io/$GITHUB_REPOSITORY/api:latest .
           docker push ghcr.io/$GITHUB_REPOSITORY/api
           docker push ghcr.io/$GITHUB_REPOSITORY/api:$GITHUB_SHA
           docker push ghcr.io/$GITHUB_REPOSITORY/api:latest
